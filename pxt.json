@@ -4,7 +4,8 @@
     "dependencies": {
         "core": "*",
         "radio": "*",
-        "microphone": "*"
+        "microphone": "*",
+        "Reaction Timer": "github:erfankeyhani-1/reaction-timer#b7efa2ba5e6129dee920be86447a880818ef80fd"
     },
     "files": [
         "main.blocks",
