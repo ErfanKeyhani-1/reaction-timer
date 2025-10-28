@@ -1,41 +1,35 @@
-let startTime = 0
-let endTime = 0
-let reactionTime = 0
+# THIS IS PYTHON NOW
 
-input.onButtonPressed(Button.A, function () {
-    if (startTime > 0 && endTime == 0) {
-        // Stop timer
-        endTime = control.millis()
-        reactionTime = endTime - startTime
-        basic.showNumber(reactionTime)
-    }
-})
+from microbit import *
+import random
+import time
 
-basic.forever(function () {
-    basic.showString("3")
-    basic.pause(1000)
-    basic.showString("2")
-    basic.pause(1000)
-    basic.showString("1")
-    basic.pause(1000)
+while True:
+    display.show("3")
+    sleep(1000)
+    display.show("2")
+    sleep(1000)
+    display.show("1")
+    sleep(1000)
+    display.clear()
 
-    // Wait random time before flash
-    basic.clearScreen()
-    basic.pause(randint(1000, 4000))
+    # Wait a random time before flashing
+    sleep(random.randint(1000, 4000))
 
-    // Flash the screen
-    basic.showIcon(IconNames.Square)
-    startTime = control.millis()
-    endTime = 0
+    # Flash the screen
+    display.show(Image.SQUARE)
+    start_time = running_time()
 
-    // Wait for user press
-    while (endTime == 0) {
-        basic.pause(50)
-    }
+    # Wait for button A press
+    while not button_a.is_pressed():
+        sleep(10)
 
-    // Show result for a bit, then restart
-    basic.pause(2000)
-    basic.clearScreen()
-    startTime = 0
-    endTime = 0
-})
+    end_time = running_time()
+    reaction_time = end_time - start_time
+
+    # Show reaction time
+    display.scroll(str(reaction_time))
+
+    # Pause and reset for next round
+    sleep(2000)
+    display.clear()
