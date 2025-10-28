@@ -1,35 +1,39 @@
-# THIS IS PYTHON NOW
+#HERE IS THE DAMN PYTHON CODE
 
-from microbit import *
-import random
-import time
+startTime = 0
+endTime = 0
+reactionTime = 0
 
-while True:
-    display.show("3")
-    sleep(1000)
-    display.show("2")
-    sleep(1000)
-    display.show("1")
-    sleep(1000)
-    display.clear()
+def on_button_pressed_a():
+    global endTime, reactionTime
+    if startTime > 0 and endTime == 0:
+        # Stop timer
+        endTime = control.millis()
+        reactionTime = endTime - startTime
+        basic.show_number(reactionTime)
+input.on_button_pressed(Button.A, on_button_pressed_a)
 
-    # Wait a random time before flashing
-    sleep(random.randint(1000, 4000))
-
+def on_forever():
+    global startTime, endTime
+    basic.show_string("3")
+    basic.pause(1000)
+    basic.show_string("2")
+    basic.pause(1000)
+    basic.show_string("1")
+    basic.pause(1000)
+    # Wait random time before flash
+    basic.clear_screen()
+    basic.pause(randint(1000, 4000))
     # Flash the screen
-    display.show(Image.SQUARE)
-    start_time = running_time()
-
-    # Wait for button A press
-    while not button_a.is_pressed():
-        sleep(10)
-
-    end_time = running_time()
-    reaction_time = end_time - start_time
-
-    # Show reaction time
-    display.scroll(str(reaction_time))
-
-    # Pause and reset for next round
-    sleep(2000)
-    display.clear()
+    basic.show_icon(IconNames.SQUARE)
+    startTime = control.millis()
+    endTime = 0
+    # Wait for user press
+    while endTime == 0:
+        basic.pause(50)
+    # Show result for a bit, then restart
+    basic.pause(2000)
+    basic.clear_screen()
+    startTime = 0
+    endTime = 0
+basic.forever(on_forever)
